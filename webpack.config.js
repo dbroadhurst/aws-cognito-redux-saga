@@ -11,7 +11,6 @@ const config = {
     libraryTarget: 'umd'
   },
   externals: [
-    'babel-polyfill',
     'react',
     'redux-saga/effects',
     'amazon-cognito-identity-js',
