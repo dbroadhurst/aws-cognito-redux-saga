@@ -1,6 +1,6 @@
 {
   "name": "aws-cognito-redux-saga",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Redux Saga AWS Cognito Library",
   "main": "./dist/index.js",
   "scripts": {
@@ -12,7 +12,15 @@
     "type": "git",
     "url": "https://github.com/dbroadhurst/aws-cognito-redux-saga"
   },
-  "keywords": ["aws", "cognito", "users", "account", "react", "redux", "saga"],
+  "keywords": [
+    "aws",
+    "cognito",
+    "users",
+    "account",
+    "react",
+    "redux",
+    "saga"
+  ],
   "author": "David Broadhurst",
   "homepage": "http://cognito.dbroadhurst.net",
   "license": "MIT",
