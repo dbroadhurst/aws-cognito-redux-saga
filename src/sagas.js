@@ -47,7 +47,7 @@ function* signedIn() {
 
 function* signUp(action) {
   try {
-    yield call(authRegister, action.payload.username, action.payload.password)
+    yield call(authRegister, action.payload.username, action.payload.password, action.payload.attributes)
     yield put({
       type: actions.AUTH_SET_STATE,
       payload: {

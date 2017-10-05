@@ -7,12 +7,13 @@ export const init = () => {
   }
 }
 
-export const signUp = (username, password) => {
+export const signUp = (username, password, attributes) => {
   return {
     type: action.AUTH_SIGN_UP,
     payload: {
       username,
-      password
+      password,
+      attributes
     }
   }
 }

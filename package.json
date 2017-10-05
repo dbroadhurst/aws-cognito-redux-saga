@@ -25,10 +25,11 @@
   "homepage": "http://cognito.dbroadhurst.net",
   "license": "MIT",
   "dependencies": {
+    "amazon-cognito-identity-js": "^1.19.0",
+    "aws-cognito-promises": "github:hatboysoftware/aws-cognito-promises",
+    "aws-sdk": "^2.94.0",
     "babel-polyfill": "^6.23.0",
     "react": "^15.6.1",
-    "amazon-cognito-identity-js": "^1.19.0",
-    "aws-sdk": "^2.94.0",
     "redux-saga": "^0.15.6"
   },
   "devDependencies": {
