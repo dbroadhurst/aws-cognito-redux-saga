@@ -1,3 +1,4 @@
+import AWS from 'aws-sdk'
 import {
   authRegister,
   confirmation,
@@ -5,7 +6,7 @@ import {
   getLocalUser,
   authSignOut,
   getSession,
-  config
+  getCredentials
 } from 'aws-cognito-promises'
 
 import { call, put, takeLatest } from 'redux-saga/effects'
@@ -24,7 +25,8 @@ let defaultState = {
 function* signedIn() {
   try {
     yield call(getSession)
-    let user = config.getUser()
+    let user = yield call(getLocalUser)
+    AWS.config.credentials = yield call(getCredentials)
     yield put({
       type: actions.AUTH_SET_STATE,
       payload: {
@@ -47,7 +49,7 @@ function* signedIn() {
 
 function* signUp(action) {
   try {
-    yield call(authRegister, action.payload.username, action.payload.password)
+    yield call(authRegister, action.payload.username, action.payload.password, action.payload.attributes)
     yield put({
       type: actions.AUTH_SET_STATE,
       payload: {
@@ -90,6 +92,7 @@ function* signIn(action) {
     }
     let user = yield call(authSignIn, username, password)
     user = yield call(getLocalUser)
+    AWS.config.credentials = yield call(getCredentials)
     yield put({
       type: actions.AUTH_SET_STATE,
       payload: {
