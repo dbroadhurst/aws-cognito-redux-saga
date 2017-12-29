@@ -15,8 +15,7 @@ const config = {
     'redux-saga',
     'redux-saga/effects',
     'amazon-cognito-identity-js',
-    'aws-sdk',
-    'babel-polyfill'
+    'aws-sdk'
   ],
   module: {
     rules: [
