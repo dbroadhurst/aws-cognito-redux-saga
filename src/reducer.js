@@ -1,9 +1,16 @@
 import * as action from './actions'
+import * as state from './states'
 
 export const init = () => {
   return {
     type: action.AUTH_INIT,
     payload: {}
+  }
+}
+
+export const getUser = () => {
+  return {
+    type: action.AUTH_GET_USER
   }
 }
 
@@ -34,12 +41,6 @@ export const signOut = () => {
   }
 }
 
-export const signedIn = () => {
-  return {
-    type: action.AUTH_SIGNED_IN
-  }
-}
-
 const ACTION_HANDLERS = {
   [action.AUTH_SET_STATE]: (state, action) => {
     return { ...state, ...action.payload }
@@ -49,7 +50,9 @@ const ACTION_HANDLERS = {
   }
 }
 
-let defaultState = {}
+let defaultState = {
+  isSignedIn: state.AUTH_UNKNOWN
+}
 
 export const reducer = (state = defaultState, action) => {
   const handler = ACTION_HANDLERS[action.type]

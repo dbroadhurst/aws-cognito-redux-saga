@@ -1,6 +1,6 @@
 export const AUTH_INIT = 'AUTH_INIT'
+export const AUTH_GET_USER = 'AUTH_GET_USER'
 export const AUTH_SET_STATE = 'AUTH_SET_STATE'
 export const AUTH_SIGN_UP = 'AUTH_SIGN_UP'
 export const AUTH_SIGN_IN = 'AUTH_SIGN_IN'
 export const AUTH_SIGN_OUT = 'AUTH_SIGN_OUT'
-export const AUTH_SIGNED_IN = 'AUTH_SIGNED_IN'

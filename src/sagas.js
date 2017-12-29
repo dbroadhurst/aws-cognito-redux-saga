@@ -21,7 +21,16 @@ let defaultState = {
   hasSignedUp: states.AUTH_UNKNOWN
 }
 
-function* signedIn() {
+function* init(action) {
+  yield put({
+    type: actions.AUTH_SET_STATE,
+    payload: {
+      ...defaultState
+    }
+  })
+}
+
+function* getUser() {
   try {
     yield call(getSession)
     let user = config.getUser()
@@ -39,7 +48,8 @@ function* signedIn() {
       type: actions.AUTH_SET_STATE,
       payload: {
         ...defaultState,
-        error: {}
+        isSignedIn: states.AUTH_FAIL,
+        error: e
       }
     })
   }
@@ -113,19 +123,10 @@ function* signIn(action) {
   }
 }
 
-function* init(action) {
-  yield put({
-    type: actions.AUTH_SET_STATE,
-    payload: {
-      ...defaultState
-    }
-  })
-}
-
 export default function* sagas() {
+  yield takeLatest(actions.AUTH_INIT, init)
+  yield takeLatest(actions.AUTH_GET_USER, getUser)
   yield takeLatest(actions.AUTH_SIGN_UP, signUp)
   yield takeLatest(actions.AUTH_SIGN_IN, signIn)
   yield takeLatest(actions.AUTH_SIGN_OUT, signOut)
-  yield takeLatest(actions.AUTH_SIGNED_IN, signedIn)
-  yield takeLatest(actions.AUTH_INIT, init)
 }
