@@ -26,11 +26,11 @@
   "license": "MIT",
   "dependencies": {
     "amazon-cognito-identity-js": "^1.19.0",
+    "aws-cognito-promises": "^1.0.4",
     "aws-sdk": "^2.94.0",
     "babel-polyfill": "^6.23.0",
     "react": "^15.6.1",
-    "redux-saga": "^0.15.6",
-    "aws-cognito-promises": "^1.0.4"
+    "redux-saga": "^0.15.6"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

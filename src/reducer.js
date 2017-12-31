@@ -41,6 +41,26 @@ export const signOut = () => {
   }
 }
 
+export const forgotPassword = username => {
+  return {
+    type: action.AUTH_FORGOT_PASSWORD,
+    payload: {
+      username
+    }
+  }
+}
+
+export const changePassword = (username, code, password) => {
+  return {
+    type: action.AUTH_CHANGE_PASSWORD,
+    payload: {
+      username,
+      code,
+      password
+    }
+  }
+}
+
 const ACTION_HANDLERS = {
   [action.AUTH_SET_STATE]: (state, action) => {
     return { ...state, ...action.payload }

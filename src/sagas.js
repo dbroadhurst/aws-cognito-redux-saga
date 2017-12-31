@@ -5,6 +5,8 @@ import {
   getLocalUser,
   authSignOut,
   getSession,
+  authForgotPassword,
+  authChangePassword,
   config
 } from 'aws-cognito-promises'
 
@@ -18,7 +20,9 @@ let defaultState = {
   error: {},
   isSignedIn: states.AUTH_UNKNOWN,
   isConfirmed: states.AUTH_UNKNOWN,
-  hasSignedUp: states.AUTH_UNKNOWN
+  hasSignedUp: states.AUTH_UNKNOWN,
+  hasSentCode: states.AUTH_UNKNOWN,
+  hasChangedPassword: states.AUTH_UNKNOWN
 }
 
 function* init(action) {
@@ -123,10 +127,58 @@ function* signIn(action) {
   }
 }
 
+function* forgotPassword(action) {
+  try {
+    const { username } = action.payload
+    yield call(authForgotPassword, username)
+    yield put({
+      type: actions.AUTH_SET_STATE,
+      payload: {
+        ...defaultState,
+        hasSentCode: states.AUTH_SUCCESS
+      }
+    })
+  } catch (e) {
+    yield put({
+      type: actions.AUTH_SET_STATE,
+      payload: {
+        ...defaultState,
+        error: e,
+        isSignedIn: states.AUTH_FAIL
+      }
+    })
+  }
+}
+
+function* changePassword(action) {
+  try {
+    const { username, code, password } = action.payload
+    yield call(authChangePassword, username, code, password)
+    yield put({
+      type: actions.AUTH_SET_STATE,
+      payload: {
+        ...defaultState,
+        hasChangedPassword: states.AUTH_SUCCESS
+      }
+    })
+  } catch (e) {
+    yield put({
+      type: actions.AUTH_SET_STATE,
+      payload: {
+        ...defaultState,
+        error: e,
+        isSignedIn: states.AUTH_FAIL
+      }
+    })
+  }
+}
+
 export default function* sagas() {
   yield takeLatest(actions.AUTH_INIT, init)
   yield takeLatest(actions.AUTH_GET_USER, getUser)
   yield takeLatest(actions.AUTH_SIGN_UP, signUp)
   yield takeLatest(actions.AUTH_SIGN_IN, signIn)
   yield takeLatest(actions.AUTH_SIGN_OUT, signOut)
+  yield takeLatest(actions.AUTH_FORGOT_PASSWORD, forgotPassword)
+  yield takeLatest(actions.AUTH_CHANGE_PASSWORD, changePassword)
 }
