@@ -3,6 +3,8 @@ version: 0.2
 phases:
   build:
     commands:
+      - npm install
+      - npm run build
       - echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
       - npm publish
       
