@@ -3910,7 +3910,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
-      exports.config = exports.authChangePassword = exports.authForgotPassword = exports.getSession = exports.authSignOut = exports.authSignIn = exports.confirmation = exports.authRegister = undefined;
+      exports.config = exports.changePassword = exports.forgotPassword = exports.getSession = exports.signOut = exports.signIn = exports.confirmation = exports.register = undefined;
 
       var _register = __webpack_require__(4);
 
@@ -3960,13 +3960,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return obj && obj.__esModule ? obj : { default: obj };
       }
 
-      exports.authRegister = _register2.default;
+      exports.register = _register2.default;
       exports.confirmation = _confirmation2.default;
-      exports.authSignIn = _authenticate2.default;
-      exports.authSignOut = _signOut2.default;
+      exports.signIn = _authenticate2.default;
+      exports.signOut = _signOut2.default;
       exports.getSession = _getSession2.default;
-      exports.authForgotPassword = _forgotPassword2.default;
-      exports.authChangePassword = _changePassword2.default;
+      exports.forgotPassword = _forgotPassword2.default;
+      exports.changePassword = _changePassword2.default;
       exports.config = config;
 
       /***/
@@ -9602,6 +9602,8 @@ exports.default = sagas;
 
 var _awsCognitoPromises = __webpack_require__(127);
 
+var auth = _interopRequireWildcard(_awsCognitoPromises);
+
 var _effects = __webpack_require__(336);
 
 var _actions = __webpack_require__(90);
@@ -9660,9 +9662,9 @@ function getUser() {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.prev = 0;
-          user = _awsCognitoPromises.config.getUser();
+          user = auth.config.getUser();
           _context2.next = 4;
-          return (0, _effects.call)(_awsCognitoPromises.getSession);
+          return (0, _effects.call)(auth.getSession);
 
         case 4:
           session = _context2.sent;
@@ -9707,7 +9709,7 @@ function signUp(action) {
         case 0:
           _context3.prev = 0;
           _context3.next = 3;
-          return (0, _effects.call)(_awsCognitoPromises.authRegister, action.payload.username, action.payload.password);
+          return (0, _effects.call)(auth.register, action.payload.username, action.payload.password);
 
         case 3:
           _context3.next = 5;
@@ -9748,7 +9750,7 @@ function signOut() {
         case 0:
           _context4.prev = 0;
           _context4.next = 3;
-          return (0, _effects.call)(_awsCognitoPromises.authSignOut);
+          return (0, _effects.call)(auth.signOut);
 
         case 3:
           _context4.next = 5;
@@ -9794,16 +9796,16 @@ function signIn(action) {
           }
 
           _context5.next = 5;
-          return (0, _effects.call)(_awsCognitoPromises.confirmation, username, code);
+          return (0, _effects.call)(auth.confirmation, username, code);
 
         case 5:
           _context5.next = 7;
-          return (0, _effects.call)(_awsCognitoPromises.authSignIn, username, password);
+          return (0, _effects.call)(auth.signIn, username, password);
 
         case 7:
-          user = _awsCognitoPromises.config.getUser();
+          user = auth.config.getUser();
           _context5.next = 10;
-          return (0, _effects.call)(_awsCognitoPromises.getSession);
+          return (0, _effects.call)(auth.getSession);
 
         case 10:
           session = _context5.sent;
@@ -9864,7 +9866,7 @@ function forgotPassword(action) {
           _context6.prev = 0;
           username = action.payload.username;
           _context6.next = 4;
-          return (0, _effects.call)(_awsCognitoPromises.authForgotPassword, username);
+          return (0, _effects.call)(auth.forgotPassword, username);
 
         case 4:
           _context6.next = 6;
@@ -9909,7 +9911,7 @@ function changePassword(action) {
           _context7.prev = 0;
           _action$payload2 = action.payload, username = _action$payload2.username, code = _action$payload2.code, password = _action$payload2.password;
           _context7.next = 4;
-          return (0, _effects.call)(_awsCognitoPromises.authChangePassword, username, code, password);
+          return (0, _effects.call)(auth.changePassword, username, code, password);
 
         case 4:
           _context7.next = 6;

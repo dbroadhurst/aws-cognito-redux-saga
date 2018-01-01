@@ -1,13 +1,4 @@
-import {
-  authRegister,
-  confirmation,
-  authSignIn,
-  authSignOut,
-  getSession,
-  authForgotPassword,
-  authChangePassword,
-  config
-} from 'aws-cognito-promises'
+import * as auth from 'aws-cognito-promises'
 
 import { call, put, takeLatest } from 'redux-saga/effects'
 import * as actions from './actions'
@@ -35,8 +26,8 @@ function* init(action) {
 
 function* getUser() {
   try {
-    let user = config.getUser()
-    let session = yield call(getSession)
+    let user = auth.config.getUser()
+    let session = yield call(auth.getSession)
     yield put({
       type: actions.AUTH_SET_STATE,
       payload: {
@@ -60,7 +51,7 @@ function* getUser() {
 
 function* signUp(action) {
   try {
-    yield call(authRegister, action.payload.username, action.payload.password)
+    yield call(auth.register, action.payload.username, action.payload.password)
     yield put({
       type: actions.AUTH_SET_STATE,
       payload: {
@@ -81,7 +72,7 @@ function* signUp(action) {
 
 function* signOut() {
   try {
-    yield call(authSignOut)
+    yield call(auth.signOut)
     yield put({
       type: actions.AUTH_SET_STATE,
       payload: { isSignedIn: states.AUTH_FAIL }
@@ -99,11 +90,11 @@ function* signIn(action) {
     const { username, password, code } = action.payload
 
     if (code) {
-      yield call(confirmation, username, code)
+      yield call(auth.confirmation, username, code)
     }
-    yield call(authSignIn, username, password)
-    let user = config.getUser()
-    let session = yield call(getSession)
+    yield call(auth.signIn, username, password)
+    let user = auth.config.getUser()
+    let session = yield call(auth.getSession)
 
     yield put({
       type: actions.AUTH_SET_STATE,
@@ -131,7 +122,7 @@ function* signIn(action) {
 function* forgotPassword(action) {
   try {
     const { username } = action.payload
-    yield call(authForgotPassword, username)
+    yield call(auth.forgotPassword, username)
     yield put({
       type: actions.AUTH_SET_STATE,
       payload: {
@@ -154,7 +145,7 @@ function* forgotPassword(action) {
 function* changePassword(action) {
   try {
     const { username, code, password } = action.payload
-    yield call(authChangePassword, username, code, password)
+    yield call(auth.changePassword, username, code, password)
     yield put({
       type: actions.AUTH_SET_STATE,
       payload: {
