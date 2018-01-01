@@ -2,7 +2,6 @@ import {
   authRegister,
   confirmation,
   authSignIn,
-  getLocalUser,
   authSignOut,
   getSession,
   authForgotPassword,
@@ -36,15 +35,15 @@ function* init(action) {
 
 function* getUser() {
   try {
-    yield call(getSession)
     let user = config.getUser()
+    let session = yield call(getSession)
     yield put({
       type: actions.AUTH_SET_STATE,
       payload: {
         ...defaultState,
         isSignedIn: states.AUTH_SUCCESS,
         isConfirmed: states.AUTH_SUCCESS,
-        info: user
+        info: { username: user.username, ...session }
       }
     })
   } catch (e) {
@@ -102,14 +101,16 @@ function* signIn(action) {
     if (code) {
       yield call(confirmation, username, code)
     }
-    let user = yield call(authSignIn, username, password)
-    user = yield call(getLocalUser)
+    yield call(authSignIn, username, password)
+    let user = config.getUser()
+    let session = yield call(getSession)
+
     yield put({
       type: actions.AUTH_SET_STATE,
       payload: {
         isSignedIn: states.AUTH_SUCCESS,
         isConfirmed: states.AUTH_SUCCESS,
-        info: user
+        info: { username: user.username, ...session }
       }
     })
   } catch (e) {
