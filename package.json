@@ -27,7 +27,7 @@
   "dependencies": {
     "amazon-cognito-identity-js": "^1.19.0",
     "aws-cognito-promises": "^1.0.4",
-    "aws-sdk": "^2.178.0",
+    "aws-sdk": "^2.177.0",
     "babel-polyfill": "^6.23.0",
     "react": "^16.2.0",
     "redux-saga": "^0.15.6"
