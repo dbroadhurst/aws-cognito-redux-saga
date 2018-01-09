@@ -1,6 +1,6 @@
 {
   "name": "aws-cognito-redux-saga",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "description": "Redux Saga AWS Cognito Library",
   "main": "./dist/index.js",
   "scripts": {
