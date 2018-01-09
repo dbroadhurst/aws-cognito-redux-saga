@@ -12,7 +12,9 @@ const config = {
   },
   externals: [
     'react',
+    'redux',
     'redux-saga/effects',
+    'redux-saga/utils',
     'amazon-cognito-identity-js',
     'aws-sdk'
   ],
