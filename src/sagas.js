@@ -12,7 +12,8 @@ let defaultState = {
   isConfirmed: states.AUTH_UNKNOWN,
   hasSignedUp: states.AUTH_UNKNOWN,
   hasSentCode: states.AUTH_UNKNOWN,
-  hasChangedPassword: states.AUTH_UNKNOWN
+  hasChangedPassword: states.AUTH_UNKNOWN,
+  passwordResetRequired: states.AUTH_UNKNOWN
 }
 
 function* init(action) {
@@ -110,6 +111,11 @@ function* signIn(action) {
         type: actions.AUTH_SET_STATE,
         payload: { isConfirmed: states.AUTH_FAIL, error: e }
       })
+    } else if (e.code === 'PasswordResetRequiredException') {
+      yield put({
+        type: actions.AUTH_SET_STATE,
+        payload: { passwordResetRequired: states.AUTH_SUCCESS, error: e }
+      })
     } else {
       yield put({
         type: actions.AUTH_SET_STATE,
@@ -165,6 +171,30 @@ function* changePassword(action) {
   }
 }
 
+function* completeNewPassword(action) {
+  try {
+    console.log(action)
+    const { username, password } = action.payload
+    yield call(auth.completeNewPassword, username, password)
+    yield put({
+      type: actions.AUTH_SET_STATE,
+      payload: {
+        ...defaultState,
+        hasChangedPassword: states.AUTH_SUCCESS
+      }
+    })
+  } catch (e) {
+    yield put({
+      type: actions.AUTH_SET_STATE,
+      payload: {
+        ...defaultState,
+        error: e,
+        isSignedIn: states.AUTH_FAIL
+      }
+    })
+  }
+}
+
 export default function* sagas() {
   yield takeLatest(actions.AUTH_INIT, init)
   yield takeLatest(actions.AUTH_GET_USER, getUser)
@@ -173,4 +203,5 @@ export default function* sagas() {
   yield takeLatest(actions.AUTH_SIGN_OUT, signOut)
   yield takeLatest(actions.AUTH_FORGOT_PASSWORD, forgotPassword)
   yield takeLatest(actions.AUTH_CHANGE_PASSWORD, changePassword)
+  yield takeLatest(actions.AUTH_COMPLETE_NEW_PASSWORD, completeNewPassword)
 }

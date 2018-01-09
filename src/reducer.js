@@ -61,6 +61,17 @@ export const changePassword = (username, code, password) => {
   }
 }
 
+export const completeNewPassword = (username, password) => {
+  console.log(username, password)
+  return {
+    type: action.AUTH_COMPLETE_NEW_PASSWORD,
+    payload: {
+      username,
+      password
+    }
+  }
+}
+
 const ACTION_HANDLERS = {
   [action.AUTH_SET_STATE]: (state, action) => {
     return { ...state, ...action.payload }
