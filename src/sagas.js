@@ -173,7 +173,6 @@ function* changePassword(action) {
 
 function* completeNewPassword(action) {
   try {
-    console.log(action)
     const { username, password } = action.payload
     yield call(auth.completeNewPassword, username, password)
     yield put({
